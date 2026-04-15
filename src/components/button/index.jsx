@@ -1,7 +1,8 @@
 
 const variantStyles = {
     submit: "bg-green-500 hover:bg-green-600",
-    reset: "bg-orange-400 hover:bg-orange-600"
+    reset: "bg-orange-400 hover:bg-orange-600",
+    edit: "bg-blue-500 hover:bg-blue-600"
 }
 
 export function CustomButton ({variant, handleClick, title}) {
