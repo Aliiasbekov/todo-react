@@ -1,7 +1,7 @@
 //TODO
 //FILE FOR API REQUEST
 
-const BASE_URL = "https://6971c97a32c6bacb12c47b89.mockapi.io";
+const BASE_URL = "https://6971c97a32c6bacb12c47b89.mockapi.io/api/v2/todos";
 
 const API = {
     // Получить все задачи

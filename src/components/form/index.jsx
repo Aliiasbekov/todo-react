@@ -1,18 +1,21 @@
 import {CustomButton} from "../button/index.jsx";
 import {useState} from "react";
+import API from "../../api/todo.js";
 
 const styles = "border-1 border-white rounded-md px-4 py-2 text-md text-white"
 
-export function TodoForm ({setTodos, todos}) {
+export function TodoForm ({setTodos}) {
     const [inputValue, setInputValue] = useState("")
 
     const handleSave = async (event) => {
-        event.preventDefault()
-        if(inputValue.length > 0){
-            setTodos(prev => [inputValue, ...prev])
-            localStorage.setItem("todos", JSON.stringify([...todos, inputValue]))
+        event.preventDefault();
+
+        if (inputValue.length > 0) {
+            const newTodo = await API.createTodo(inputValue);
+            setTodos(prev => [newTodo, ...prev]);
+            setInputValue("");
         }
-    }
+    };
 
     return (
         <form

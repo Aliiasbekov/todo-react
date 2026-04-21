@@ -1,19 +1,23 @@
 import {CustomButton} from "../button/index.jsx";
 import { useState } from "react";
+import API from "../../api/todo.js";
 
-export function TodoItem ({todoTitle, setTodos}) {
+export function TodoItem ({todo, setTodos}) {
     const [isEditing, setIsEditing] = useState(false);
-    const [newTitle, setNewTitle] = useState(todoTitle);
+    const [newTitle, setNewTitle] = useState(todo.title);
 
-    const handleDelete = () => {
-        setTodos((prev) =>  prev.filter(el => el !== todoTitle))
-    }
-
-    const handleEdit = () => {
-        setTodos((prev) => prev.map(el => (el === todoTitle ? newTitle : el)))
-        setIsEditing(false);
+    const handleDelete = async () => {
+        await API.deleteTodo(todo.id);
+        setTodos(prev => prev.filter(el => el.id !== todo.id));
     };
 
+    const handleEdit = async () => {
+        const updated = await API.updateTodo(todo.id, newTitle);
+        setTodos(prev =>
+            prev.map(el => el.id === todo.id ? updated : el)
+        );
+        setIsEditing(false);
+    };
 
     return (
         <div
@@ -28,11 +32,10 @@ export function TodoItem ({todoTitle, setTodos}) {
                     autoFocus
                 />
             ) : (
-                <p>{todoTitle}</p>
+                <p>{todo.title}</p>
             )}
             <div className="flex gap-2">
                 {isEditing ? (
-                    // Кнопка сохранения, когда в режиме редактирования
                     <CustomButton variant="submit" handleClick={handleEdit} title="SAVE" />
                 ) : (
                     <>
